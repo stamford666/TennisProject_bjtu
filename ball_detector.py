@@ -5,15 +5,22 @@ import numpy as np
 from ultralytics import YOLO
 from scipy.spatial import distance
 from tqdm import tqdm
+from UNet import UNet
 
 class BallDetector:
     def __init__(self, model_type='tracknet', device='cuda'):
         self.model_type = model_type
         self.device = device        
         
-        if self.model_type == 'tracknet':
-            self.model = BallTrackerNet(input_channels=9, out_channels=256)
-            self.path_model = './models/model_ball_det_tracknet.pt'
+        if self.model_type == 'tracknet' or self.model_type == 'unet':
+            if self.model_type == 'tracknet':
+                self.model = BallTrackerNet(input_channels=9, out_channels=256)
+                self.path_model = './models/model_ball_det_tracknet.pt'
+                print('using tracknet')
+            else:
+                self.model = UNet(input_channels=9, out_channels=256)
+                self.path_model = './models/model_ball_det_unet.pt'
+                print('using unet')
             self.model.load_state_dict(torch.load(self.path_model, map_location=device))
             self.model = self.model.to(device)
             self.model.eval()
@@ -37,7 +44,7 @@ class BallDetector:
         prev_pred = [None, None]
         x_pred_last, y_pred_last = 0, 0
         for num in tqdm(range(2, len(frames))):
-            if self.model_type == 'tracknet':
+            if self.model_type == 'tracknet' or self.model_type == 'unet':
                 img = cv2.resize(frames[num], (self.width, self.height)) # img.shape = (360, 640, 3)
                 img_prev = cv2.resize(frames[num-1], (self.width, self.height))
                 img_preprev = cv2.resize(frames[num-2], (self.width, self.height))
