@@ -18,7 +18,7 @@ class CourtDetectorNet():
             model = torchvision.models.resnet50()
             model.fc = torch.nn.Linear(model.fc.in_features, 14*2)
             self.model = model
-            self.path_model = './models/model_court_det_resnet50_best_model.pth'
+            self.path_model = './models/model_court_det_resnet50.pth'
         elif self.model_type == 'tracknet':
             self.model = BallTrackerNet(out_channels=15)
             self.path_model = './models/model_court_det_tracknet.pt'
