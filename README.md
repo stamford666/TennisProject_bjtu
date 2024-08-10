@@ -18,7 +18,7 @@ It was used neural network for detection 14 points of tennis court. For more inf
 
 ### How to run
 Prepare a video file with resolution 1280x720
-1. Clone the repository `https://github.com/yastrebksv/TennisProject.git`
+1. Clone the repository `https://github.com/stamford666/TennisProject_bjtu.git`
 2. Run `pip install -r requirements.txt` to install packages required
 3. Run `python main.py <args>`
 
