@@ -25,6 +25,6 @@ def resize_video(input_path, output_path, width, height):
     cv2.destroyAllWindows()
 
 # 调用函数进行视频分辨率调整
-input_video_path = 'input_video.mp4'
-output_video_path = 'output_video_1280x720.mp4'
+input_video_path = 'video_input6.mp4'
+output_video_path = 'video_input_6.mp4'
 resize_video(input_video_path, output_video_path, 1280, 720)
