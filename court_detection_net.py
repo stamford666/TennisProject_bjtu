@@ -18,7 +18,7 @@ class CourtDetectorNet():
             model = torchvision.models.resnet50()
             model.fc = torch.nn.Linear(model.fc.in_features, 14*2)
             self.model = model
-            self.path_model = './models/model_court_det_resnet50.pth'
+            self.path_model = './models/model_court_det_resnet50_best_model.pth'
         elif self.model_type == 'tracknet':
             self.model = BallTrackerNet(out_channels=15)
             self.path_model = './models/model_court_det_tracknet.pt'
@@ -58,20 +58,20 @@ class CourtDetectorNet():
             out = self.model(img)
             out = torch.squeeze(out)
             pred = out.detach().cpu().numpy()
-            pred[0::2] *= output_width / 112.0
-            pred[1::2] *= output_height / 112.0  
+            pred[0::2] *= output_width / 224.0 * scale
+            pred[1::2] *= output_height / 224.0 * scale  
 
             points = []
-            # for i in range(0, 28, 2):
-            #     x_pred, y_pred = (pred[i],pred[i+1])
-            #     if x_pred is not None:
-            #         if i not in [8, 12, 9]:
-            #             x_pred, y_pred = refine_kps(image, int(y_pred), int(x_pred), crop_size=40)
-            #         points.append((x_pred, y_pred))                
-            #     else:
-            #         points.append(None)
             for i in range(0, 28, 2):
-                points.append((pred[i],pred[i+1]))
+                x_pred, y_pred = (pred[i],pred[i+1])
+                if x_pred is not None:
+                    if i not in [8, 12, 9]:
+                        x_pred, y_pred = refine_kps(image, int(y_pred), int(x_pred), crop_size=40)
+                    points.append((x_pred, y_pred))                
+                else:
+                    points.append(None)
+            # for i in range(0, 28, 2):
+            #     points.append((pred[i],pred[i+1]))
 
             matrix_trans = get_trans_matrix(points) # matrix_trans.shape=(3, 3) points.shape=(14, 1, 2)
             points = None
