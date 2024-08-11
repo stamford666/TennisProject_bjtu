@@ -15,8 +15,9 @@ if __name__ == '__main__':
     parser.add_argument('--court_kps_det_model', default='tracknet', type=str, help="choose from 'resnet', 'tracknet'")
     parser.add_argument('--person_det_model', default='fasterrcnn', type=str, help="choose from 'yolo', 'fasterrcnn'")
     parser.add_argument('--ball_det_model', default='tracknet', type=str, help="choose from 'yolo', 'tracknet', 'unet'")    
+    parser.add_argument('--draw_trace', default=True, type=bool, help='choose from True or False')
     parser.add_argument('--path_bounce_model', default='./models/ctb_regr_bounce.cbm', type=str, help='path to pretrained model for bounce detection')
-    parser.add_argument('--path_input_video', default='./input_videos/video_input_5.mp4', type=str, help='path to input video')
+    parser.add_argument('--path_input_video', default='./input_videos/video_input_7.mp4', type=str, help='path to input video')
     parser.add_argument('--path_output_video_dir', default='./output_videos', type=str, help='path to output video dir')
     parser.add_argument('--cuda_idx', default=0, type=int, help='choose cuda index')
     args = parser.parse_args()
@@ -60,7 +61,7 @@ if __name__ == '__main__':
     bounces = bounce_detector.predict(x_ball, y_ball)
 
     imgs_res = pipline(frames, scenes, bounces, ball_track, homography_matrices, kps_court, persons_top, persons_bottom,
-                    draw_trace=True)
+                    draw_trace=args.draw_trace)
     
     path_output_video = f"{args.path_output_video_dir}/output_video{args.path_input_video[-5]}_{args.court_kps_det_model}4court_{args.person_det_model}4person_{args.ball_det_model}4ball.avi"
 
