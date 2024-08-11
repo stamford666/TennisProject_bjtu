@@ -13,7 +13,7 @@ def line_intersection(line1, line2):
     point = intersection[0].coordinates if len(intersection) > 0 else None
     return point 
 
-def refine_kps(img, x_ct, y_ct, crop_size=40):
+def refine_kps(img, x_ct, y_ct, crop_size=50):
     refined_x_ct, refined_y_ct = x_ct, y_ct
     
     img_height, img_width = img.shape[:2]
