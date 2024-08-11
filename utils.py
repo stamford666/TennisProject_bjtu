@@ -76,8 +76,8 @@ def pipline(frames, scenes, bounces, ball_track, homography_matrices, kps_court,
         imgs_res: list of resulting images
     """
     imgs_res = []
-    width_minimap = 166
-    height_minimap = 350
+    width_minimap = 199 # 166
+    height_minimap = 420 # 350
     is_track = [x is not None for x in homography_matrices] 
     for num_scene in range(len(scenes)):
         sum_track = sum(is_track[scenes[num_scene][0]:scenes[num_scene][1]])
@@ -130,6 +130,9 @@ def pipline(frames, scenes, bounces, ball_track, homography_matrices, kps_court,
 
 
                 minimap = court_img.copy()
+                minimap_overlay = np.ones_like(minimap, dtype=np.uint8)*255
+                alpha = 0.6
+                minimap = cv2.addWeighted(minimap_overlay, alpha, minimap, 1 - alpha, 0)
 
                 # draw balltrack in minimap
                 if i not in bounces and inv_mat is not None:
@@ -137,7 +140,7 @@ def pipline(frames, scenes, bounces, ball_track, homography_matrices, kps_court,
                     ball_point = np.array(ball_point, dtype=np.float32).reshape(1, 1, 2)
                     ball_point = cv2.perspectiveTransform(ball_point, inv_mat)
                     minimap = cv2.circle(minimap, (int(ball_point[0, 0, 0]), int(ball_point[0, 0, 1])),
-                                                       radius=0, color=(255, 255, 255), thickness=50)
+                                                       radius=0, color=(0, 255, 0), thickness=50)
                                   
                 # draw persons
                 persons = persons_top[i] + persons_bottom[i]                    
@@ -155,7 +158,7 @@ def pipline(frames, scenes, bounces, ball_track, homography_matrices, kps_court,
                                                            radius=0, color=(255, 0, 0), thickness=80)
 
                 minimap = cv2.resize(minimap, (width_minimap, height_minimap))
-                img_res[30:(30 + height_minimap), (width - 30 - width_minimap):(width - 30), :] = minimap
+                img_res[20:(20 + height_minimap), (width - 20 - width_minimap):(width - 20), :] = minimap
                 imgs_res.append(img_res)
 
         else:    
