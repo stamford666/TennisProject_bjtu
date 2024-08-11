@@ -75,9 +75,10 @@ class BallDetector:
                     x_pred = int((ball_boxes[-1][2] + ball_boxes[-1][0]) / 2)
                     y_pred = int((ball_boxes[-1][3] + ball_boxes[-1][1]) / 2)
                     ball_track.append((x_pred, y_pred))
-                    x_pred_last, y_pred_last = x_pred, y_pred
+                    # x_pred_last, y_pred_last = x_pred, y_pred
                 else:
-                    ball_track.append((x_pred_last, y_pred_last))
+                    # ball_track.append((x_pred_last, y_pred_last))
+                    ball_track.append((None, None))
 
         return ball_track
 
