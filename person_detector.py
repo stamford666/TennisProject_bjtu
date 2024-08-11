@@ -5,6 +5,7 @@ from ultralytics import YOLO
 from scipy.spatial import distance
 from tqdm import tqdm
 import torchvision
+from torchvision.models.detection import FasterRCNN_ResNet50_FPN_Weights,fasterrcnn_resnet50_fpn
 from court_reference import CourtReference
 
 class PersonDetector():
@@ -13,7 +14,7 @@ class PersonDetector():
         self.device = device
         
         if self.model_type == 'fasterrcnn':
-            self.detection_model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
+            self.detection_model = fasterrcnn_resnet50_fpn(weights=FasterRCNN_ResNet50_FPN_Weights.DEFAULT)
             self.detection_model = self.detection_model.to(device)
             self.detection_model.eval()
         elif self.model_type == 'yolo':
@@ -29,6 +30,7 @@ class PersonDetector():
         self.point_person_bottom = None
         self.counter_top = 0
         self.counter_bottom = 0
+        print(f"using {self.model_type}")
         
         
     def detect(self, image, person_min_score=0.7):

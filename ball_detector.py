@@ -16,11 +16,11 @@ class BallDetector:
             if self.model_type == 'tracknet':
                 self.model = BallTrackerNet(input_channels=9, out_channels=256)
                 self.path_model = './models/model_ball_det_tracknet.pt'
-                print('using tracknet')
+                # print('using tracknet')
             else:
                 self.model = UNet(input_channels=9, out_channels=256)
                 self.path_model = './models/model_ball_det_unet.pt'
-                print('using unet')
+                # print('using unet')
             self.model.load_state_dict(torch.load(self.path_model, map_location=device))
             self.model = self.model.to(device)
             self.model.eval()
@@ -29,7 +29,8 @@ class BallDetector:
             self.detection_model = self.detection_model.to(device)
         else:
             raise ValueError("model_type should be 'yolo' or 'tracknet'")
-
+        
+        print(f"using {self.model_type}")
         self.width = 640
         self.height = 360
 

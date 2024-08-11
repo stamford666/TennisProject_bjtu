@@ -13,7 +13,7 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
     parser.add_argument('--court_kps_det_model', default='tracknet', type=str, help="choose from 'resnet', 'tracknet'")
-    parser.add_argument('--person_det_model', default='yolo', type=str, help="choose from 'yolo', 'fasterrcnn'")
+    parser.add_argument('--person_det_model', default='fasterrcnn', type=str, help="choose from 'yolo', 'fasterrcnn'")
     parser.add_argument('--ball_det_model', default='tracknet', type=str, help="choose from 'yolo', 'tracknet', 'unet'")    
     parser.add_argument('--path_bounce_model', default='./models/ctb_regr_bounce.cbm', type=str, help='path to pretrained model for bounce detection')
     parser.add_argument('--path_input_video', default='./input_videos/video_input_5.mp4', type=str, help='path to input video')

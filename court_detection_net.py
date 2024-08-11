@@ -24,7 +24,9 @@ class CourtDetectorNet():
             self.path_model = './models/model_court_det_tracknet.pt'
         else:
             raise ValueError("model_type should be 'resnet50' or 'tracknet'")
-     
+        
+        print(f"using {self.model_type}")
+        
         if self.path_model:
             self.model.load_state_dict(torch.load(self.path_model, map_location=device))
             self.model = self.model.to(device)
